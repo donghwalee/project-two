@@ -1,0 +1,15 @@
+<a href="/topics">Back to all topics</a>
+
+<h1>Topics by: <%= userid %></h1>
+
+<% topics.forEach(function (topic) { %>
+  <div class="topic">
+    <p><%= topic.title %> : <%= topic.description %> by <%= topic.userid %>
+    <a href="/topics/<%= topic._id %>/edit" >[ Edit ]</a>
+    <form class="delete-button"
+          action="/topics/<%= topic._id %>?_method=DELETE"
+           method="post">
+      <input type="submit" value="Delete Topic">
+    </form></p>
+  </div>
+<% }); %>

@@ -1,0 +1,18 @@
+<a href="topics/new">Create a New Topic</a>
+
+<% topics.forEach(function (topic) { %>
+  <div class="topic">
+    <p><%= topic.title %> : <%= topic.description %> by <%= topic.name %> (
+      <a href="/users/<%= topic.userid %>">
+        <%= topic.userid %>
+      </a>)
+    <% if (topic.userid === userid) { %>
+      <a href="/topics/<%= topic._id %>/edit" >[ Edit ]</a>
+      <form class="delete-button"
+            action="/topics/<%= topic._id %>?_method=DELETE"
+             method="post">
+        <input type="submit" value="Delete Topic">
+      </form></p>
+  <% } %>
+  </div>
+<% }); %>
