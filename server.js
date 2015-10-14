@@ -131,11 +131,11 @@ server.post('/register', function (req, res) {
   });
 });
 
-server.get('/users/:id', function (req, res) {
-  User.findById(req.params.id, function (err, user) {
-    console.log(user);
-  });
-});
+// server.get('/users/:id', function (req, res) {
+//   User.findById(req.params.id, function (err, user) {
+//     console.log(user);
+//   });
+// });
 
 server.post('/login', function (req, res) {
   // req.session.currentUser = req.body.currentUser;
@@ -247,6 +247,8 @@ server.get('/topics/new', function (req, res) {
 });
 
 server.get('/users/:id', function (req, res) {
+  console.log("can you see me?");
+  console.log(req.params.id);
   var particularUser = req.params.id;
   Topic.find({
     userid: particularUser

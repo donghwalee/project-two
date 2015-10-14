@@ -1,16 +1,18 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-12 topic-top-area">
+    <div class="col-md-12 link-area">
       <a href="/topics">Back to all topics</a>
       <hr>
     </div>
 
-    <div class="col-md-12">
-        New  Topic for <%= currentuser %>
+    <div class="col-md-12 topic-top-area">
+        Enter a new topic for: <strong><%= currentuser %></strong>
     </div>
 
-    <div class="col-md-12">
+    <hr>
+
+    <div class="col-md-12 new-content-area">
       <form class="" action="/topics" method="post">
         <input  type="text"
                 name="topic[title]"

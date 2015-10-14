@@ -16,13 +16,23 @@ a {
 .navbar {
   text-align: right;
   height: 80px;
-  background-color: lightyellow;
+  /*background-color: navy;*/
+  color: white;
+  /*below from --> http://lea.verou.me/css3patterns/#carbon-fibre*/
+  background:
+  radial-gradient(black 15%, transparent 16%) 0 0,
+  radial-gradient(black 15%, transparent 16%) 8px 8px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color:#282828;
+  background-size:16px 16px;
 }
 
 #brand {
   margin-top: 14px;
   font-size: 2em;
   text-align: left;
+  color: white;
 }
 
 nav li {
@@ -36,10 +46,22 @@ nav ul {
 
 body {
   padding-top: 100px;
-  background: lightgreen;
+  background: linen;
   font-family: 'Raleway', sans-serif;
   margin: 0 auto;
+  /* below from: http://lea.verou.me/css3patterns/#carbon */
+  /*background:
+  linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+  linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+  linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+  linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+  linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+  linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+  background-color: #131313;
+  background-size: 20px 20px;*/
 }
+
+
 
 .logout-button {
   display: inline-block;
@@ -57,36 +79,71 @@ body {
 .login-area {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-color: gray;
+  border-color: red;
   border-width: 1px;
   border-style: solid;
-  border-radius: 5px;
+  /*border-radius: 15px;*/
   width: 80%;
   margin: 0px auto;
+  background-color: palegreen;
+}
+
+.new-content-area {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-color: red;
+  border-width: 1px;
+  border-style: solid;
+  /*border-radius: 15px;*/
+  width: 100%;
+  margin: 0px auto;
+}
+
+.topic-top-area {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-color: red;
+  border-width: 1px;
+  border-style: solid;
+  /*border-radius: 15px;*/
+  width: 100%;
+  margin: 0px auto;
+  background-color: palegreen;
+  font-size: 1.3em;
 }
 
 input[type='text'] {
   width: 100%;
   height: 2rem;
   padding: 0.5rem;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 input[type='password'] {
   width: 100%;
   height: 2rem;
   padding: 0.5rem;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 input[type='number'] {
   width: 100%;
   height: 2rem;
   padding-left: 0.5rem;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#login-button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#register-button {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .topic-title-description {
