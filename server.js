@@ -42,9 +42,8 @@ var Topic = mongoose.model("topic", {
   title: String,
   description: { type: String, maxlength: 500 },
   comments: [ String ],
-  likes: Number,
-  created: { $type: "timestamp" },
-  last-commented: { $type: "timestamp" }
+  numComments: Number,
+  likes: Number
   // date created
   // date last updated?
 });
@@ -163,7 +162,31 @@ server.use(function (req, res, next) {
 });
 
 server.get('/topics', function (req, res) {
-  Topic.find({}, function (err, allTopics) {
+  Topic.find({}, null, {sort: '-date'}, function (err, allTopics) {
+    if (err) {
+      res.redirect('/login');
+    } else {
+      res.render('topics', {
+        topics: allTopics
+      });
+    }
+  });
+});
+
+server.get('/topics/bylikes', function (req, res) {
+  Topic.find({}, null, {sort: '-likes'}, function (err, allTopics) {
+    if (err) {
+      res.redirect('/login');
+    } else {
+      res.render('topics', {
+        topics: allTopics
+      });
+    }
+  });
+});
+
+server.get('/topics/bycomments', function (req, res) {
+  Topic.find({}, null, {sort: '-numComments'}, function (err, allTopics) {
     if (err) {
       res.redirect('/login');
     } else {
@@ -180,6 +203,7 @@ server.post('/topics', function (req, res) {
     title: req.body.topic.title,
     description: req.body.topic.description,
     comments: [],
+    numComments: 0,
     likes: 0
   });
   topic.save(function (err, newTopic) {
@@ -232,8 +256,9 @@ server.patch('/topics/:id/', function (req, res) {
   });
 });
 
-server.patch('/topics/:id/newcomment', function (req, res) {
+server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
   var topicID = req.params.id;
+  var currentComments = eval(req.params.commentlength) + 1;
   var newComment = '(Comment by: ' + res.locals.currentuser + ') "' + req.body.topic.newcomment + '"';
   console.log("TEST", newComment);
 
@@ -245,6 +270,49 @@ server.patch('/topics/:id/newcomment', function (req, res) {
       safe: true,
       upsert: true
     }, function (err, model) {
+      if (err) {
+        console.log("This thing?", err);
+    } else {
+      Topic.findOneAndUpdate({
+        _id: topicID
+      },
+      {numComments: currentComments}
+      , {
+        safe: true,
+        upsert: true
+      },
+       function (err, model) {
+          if (err) {
+            console.log("This thing?", err);
+        } else {
+          res.redirect(302, '/topics/' + topicID);
+        }
+      }
+      );// res.redirect(302, '/topics/' + topicID);
+    }
+  }
+  );
+});
+
+
+
+
+// Issues...?
+
+server.patch('/topics/:id/like/:nolikes/', function (req, res) {
+  console.log("I'm at least here...", req.params);
+  var topicID = req.params.id;
+  var currentLikes = eval(req.params.nolikes) + 1;
+
+  Topic.findOneAndUpdate({
+    _id: topicID
+  },
+  {likes: currentLikes}
+  , {
+    safe: true,
+    upsert: true
+  },
+   function (err, model) {
       if (err) {
         console.log("This thing?", err);
     } else {
@@ -277,7 +345,43 @@ server.get('/users/:id', function (req, res) {
   var particularUser = req.params.id;
   Topic.find({
     userid: particularUser
-  }, function (err, userTopics) {
+  }, null, {sort: '-date'}, function (err, userTopics) {
+    if (err) {
+
+    } else {
+      res.render('usertopics', {
+        userid: particularUser,
+        topics: userTopics
+      });
+    }
+  });
+});
+
+server.get('/users/:id/bycomments', function (req, res) {
+  console.log("can you see me?");
+  console.log(req.params.id);
+  var particularUser = req.params.id;
+  Topic.find({
+    userid: particularUser
+  }, null, {sort: '-numComments'}, function (err, userTopics) {
+    if (err) {
+
+    } else {
+      res.render('usertopics', {
+        userid: particularUser,
+        topics: userTopics
+      });
+    }
+  });
+});
+
+server.get('/users/:id/bylikes', function (req, res) {
+  console.log("can you see me?");
+  console.log(req.params.id);
+  var particularUser = req.params.id;
+  Topic.find({
+    userid: particularUser
+  }, null, {sort: '-likes'}, function (err, userTopics) {
     if (err) {
 
     } else {

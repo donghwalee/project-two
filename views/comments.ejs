@@ -3,7 +3,6 @@
 
     <div class="col-md-12 link-area">
       <a href="/topics">Back to all topics</a>
-      <hr>
     </div>
 
     <div class="col-md-12 topic-title-description">
@@ -13,7 +12,13 @@
     <div class="col-md-12 topic-misc">
     Number of Comments: <%= topic.comments.length %> |
     Number of Likes: <%= topic.likes %>
-    <button>&#128077; Like!</button>|
+    <form class="like-button"
+          action="/topics/<%= topic._id %>/like/<%= topic.likes %>/?_method=PATCH"
+           method="post">
+       <button type="submit" class="btn-xs btn-success" id="submit-button">
+         &#128077; Like!
+       </button>
+    </form> |
     Created by:
       <a href="/users/<%= topic.userid %>">
         <%= topic.userid %>
@@ -40,11 +45,11 @@
   </div>
 
   <div class="col-md-12 comment-top">
-    Comments for this topic (newest on top):<br>
+    Comments for this topic (newest on top) |
     <form class="new-comment-button"
           action="/topics/<%= topic._id %>/newcomment"
            method="post">
-        <button type="submit" class="btn-sm btn-success" id="new-comment-button">
+        <button type="submit" class="btn-xs btn-success" id="new-comment-button">
           Create New Comment
         </button>
     </form>

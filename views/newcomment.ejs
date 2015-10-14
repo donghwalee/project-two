@@ -3,7 +3,6 @@
 
     <div class="col-md-12 link-area">
       <a href="/topics">Back to all topics</a>
-      <hr>
     </div>
 
     <div class="col-md-12 topic-title-description">
@@ -33,7 +32,7 @@
 
   <div class="col-md-12 new-content-area">
   Please enter new comment and hit Submit when finished:
-  <form class="" action="/topics/<%= topic._id %>/newcomment?_method=PATCH" method="post">
+  <form class="" action="/topics/<%= topic._id %>/newcomment/<%= topic.comments.length %>/?_method=PATCH" method="post">
     <input  type="text"
             name="topic[newcomment]"
             placeholder="Enter your comment here">
