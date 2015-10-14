@@ -29,17 +29,18 @@
       </form>
     <% } %>
 
-    <hr>
   </div>
 
   <div class="col-md-12 new-content-area">
-  Please enter your new comment below and hit Submit when finished:
-  <form class="" action="" method="post">
+  Please enter new comment and hit Submit when finished:
+  <form class="" action="/topics/<%= topic._id %>/newcomment?_method=PATCH" method="post">
     <input  type="text"
-            name="topic[comments]"
-            placeholder="new comment">
+            name="topic[newcomment]"
+            placeholder="Enter your comment here">
             <br />
-    <input type="submit">
+     <button type="submit" class="btn-sm btn-primary" id="submit-button">
+      Post My Comment
+    </button>
   </form>
 </div>
 

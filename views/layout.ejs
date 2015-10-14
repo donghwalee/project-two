@@ -25,12 +25,15 @@
     <div class="container">
       <% if (currentuser) { %>
         <div class="row">
-          <div class="col-md-12 login-status">You are currently logged in as: <%= currentuser %>
+          <div class="col-md-12 login-status">You are currently logged in as: <strong><%= currentuser %></strong> | 
             <form class="logout-button"
                   action="/logout"
                    method="post">
-              <input type="submit" value="Logout">
+               <button type="submit" class="btn-xs btn-warning" id="logout-button">
+                 Logout
+               </button>
             </form>
+
           </div>
         <% } else { %>
           <div class="login-status">You are not logged in, please <a href="/login">log in</a> or <a href="/register">register</a></div>

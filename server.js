@@ -42,7 +42,9 @@ var Topic = mongoose.model("topic", {
   title: String,
   description: { type: String, maxlength: 500 },
   comments: [ String ],
-  likes: Number
+  likes: Number,
+  created: { $type: "timestamp" },
+  last-commented: { $type: "timestamp" }
   // date created
   // date last updated?
 });
@@ -177,8 +179,8 @@ server.post('/topics', function (req, res) {
     userid: req.session.currentUser,
     title: req.body.topic.title,
     description: req.body.topic.description,
-    comments: req.body.topic.comments.split(/,\s?/),
-    likes: req.body.topic.likes
+    comments: [],
+    likes: 0
   });
   topic.save(function (err, newTopic) {
     if (err) {
@@ -209,6 +211,7 @@ server.get('/topics/:id/edit', function (req, res) {
 
 server.patch('/topics/:id/', function (req, res) {
   var topicID = req.params.id;
+  var topicParams = req.body.topic;
 
   Topic.findOne({
     _id: topicID
@@ -227,6 +230,28 @@ server.patch('/topics/:id/', function (req, res) {
        });
     }
   });
+});
+
+server.patch('/topics/:id/newcomment', function (req, res) {
+  var topicID = req.params.id;
+  var newComment = '(Comment by: ' + res.locals.currentuser + ') "' + req.body.topic.newcomment + '"';
+  console.log("TEST", newComment);
+
+  Topic.findOneAndUpdate({
+    _id: topicID
+    }, {
+      $push: {comments: [newComment]}
+    }, {
+      safe: true,
+      upsert: true
+    }, function (err, model) {
+      if (err) {
+        console.log("This thing?", err);
+    } else {
+      res.redirect(302, '/topics/' + topicID);
+    }
+  }
+  );
 });
 
 server.delete('/topics/:id', function (req, res) {
@@ -264,10 +289,11 @@ server.get('/users/:id', function (req, res) {
   });
 });
 
-server.get('/topics/:id', function (req, res) {
+server.get('/topics/:id/', function (req, res) {
+  console.log(req.params.id);
   Topic.findById(req.params.id, function (err, particularTopic) {
     if (err) {
-      console.log("darn...");
+      console.log("darn...", err);
     } else {
       res.render('comments', {
         topic: particularTopic
@@ -278,7 +304,7 @@ server.get('/topics/:id', function (req, res) {
 
 server.post('/topics/:id/newcomment', function (req, res) {
   var topicID = req.params.id;
-  console.log("here");
+  console.log("here, here...");
   Topic.findOne({
     _id: topicID
   }, function (err, foundTopic) {

@@ -12,41 +12,47 @@
 
     <div class="col-md-12 topic-misc">
     Number of Comments: <%= topic.comments.length %> |
-    Number of Likes: <%= topic.likes %> |
-    by
+    Number of Likes: <%= topic.likes %>
+    <button>&#128077; Like!</button>|
+    Created by:
       <a href="/users/<%= topic.userid %>">
         <%= topic.userid %>
       </a>
       <br>
 
     <% if (topic.userid === currentuser) { %>
-        <a href="/topics/<%= topic._id %>/edit" >[Edit]</a> |
+      <form class="edit-button"
+            action="/topics/<%= topic._id %>/edit"
+             method="get">
+         <button type="submit" class="btn-xs btn-info" id="submit-button">
+           Edit
+         </button>
+      </form> |
       <form class="delete-button"
             action="/topics/<%= topic._id %>?_method=DELETE"
              method="post">
-        <input type="submit" value="Delete Topic">
+         <button type="submit" class="btn-xs btn-danger" id="submit-button">
+           Delete Topic
+         </button>
       </form>
     <% } %>
 
-    <hr>
   </div>
 
   <div class="col-md-12 comment-top">
-    Comments:<br>
-  </div>
-  <div class="col-md-12">
+    Comments for this topic (newest on top):<br>
     <form class="new-comment-button"
           action="/topics/<%= topic._id %>/newcomment"
            method="post">
-      <input type="submit" value="New Comment">
+        <button type="submit" class="btn-sm btn-success" id="new-comment-button">
+          Create New Comment
+        </button>
     </form>
-    <hr>
   </div>
 
-  <% for (i = 0; i < topic.comments.length; i++ ) { %>
-      <div class="col-md-12 comments-each">
-        <h4><%= topic.comments[i] %></h4>
-        <hr>
+  <% for (i = topic.comments.length; i > 0 ; i-- ) { %>
+      <div class="col-md-12 comment-area">
+        <%= topic.comments[i - 1] %>
       </div>
 
     <% }; %>

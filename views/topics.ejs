@@ -3,9 +3,9 @@
   <div class="row">
 
     <div class="col-md-12 topic-top-area">
-      You are now viewing ALL topics.
+      Currently viewing ALL topics. Click on the title for comments.
       <br>
-      <small>(Don't see one that interests you? <a href="/topics/new">Create a new topic.</a>)</small>
+      <small>(Don't see one that's interesting? <a href="/topics/new">Create a new topic.</a>)</small>
     </div>
 
     <div class="col-md-12 sort-choices-area">
@@ -23,22 +23,29 @@
     <div class="col-md-12 topic-misc">
     Number of Comments: <%= topic.comments.length %> |
     Number of Likes: <%= topic.likes %> |
-    by
+    Created by:
       <a href="/users/<%= topic.userid %>">
         <%= topic.userid %>
       </a>
       <br>
 
     <% if (topic.userid === currentuser) { %>
-        <a href="/topics/<%= topic._id %>/edit" >[Edit]</a> |
+      <form class="edit-button"
+            action="/topics/<%= topic._id %>/edit"
+             method="get">
+         <button type="submit" class="btn-xs btn-info" id="submit-button">
+           Edit
+         </button>
+      </form> |
       <form class="delete-button"
             action="/topics/<%= topic._id %>?_method=DELETE"
              method="post">
-        <input type="submit" value="Delete Topic">
+         <button type="submit" class="btn-xs btn-danger" id="submit-button">
+           Delete Topic
+         </button>
       </form>
     <% } %>
 
-    <hr>
   </div>
   <% }); %>
 

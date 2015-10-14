@@ -19,13 +19,19 @@ a {
   /*background-color: navy;*/
   color: white;
   /*below from --> http://lea.verou.me/css3patterns/#carbon-fibre*/
-  background:
+  /*background:
   radial-gradient(black 15%, transparent 16%) 0 0,
   radial-gradient(black 15%, transparent 16%) 8px 8px,
   radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
   radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
   background-color:#282828;
-  background-size:16px 16px;
+  background-size:16px 16px;*/
+
+  /* below from -> http://lea.verou.me/css3patterns/#tartan */
+  background-color: hsl(2, 57%, 40%);
+  background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0,0,0,.4) 50px, rgba(0,0,0,.4) 53px, transparent 53px, transparent 63px, rgba(0,0,0,.4) 63px, rgba(0,0,0,.4) 66px, transparent 66px, transparent 116px, rgba(0,0,0,.5) 116px, rgba(0,0,0,.5) 166px, rgba(255,255,255,.2) 166px, rgba(255,255,255,.2) 169px, rgba(0,0,0,.5) 169px, rgba(0,0,0,.5) 179px, rgba(255,255,255,.2) 179px, rgba(255,255,255,.2) 182px, rgba(0,0,0,.5) 182px, rgba(0,0,0,.5) 232px, transparent 232px),
+  repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0,0,0,.4) 50px, rgba(0,0,0,.4) 53px, transparent 53px, transparent 63px, rgba(0,0,0,.4) 63px, rgba(0,0,0,.4) 66px, transparent 66px, transparent 116px, rgba(0,0,0,.5) 116px, rgba(0,0,0,.5) 166px, rgba(255,255,255,.2) 166px, rgba(255,255,255,.2) 169px, rgba(0,0,0,.5) 169px, rgba(0,0,0,.5) 179px, rgba(255,255,255,.2) 179px, rgba(255,255,255,.2) 182px, rgba(0,0,0,.5) 182px, rgba(0,0,0,.5) 232px, transparent 232px),
+  repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0,0,0,.2) 2px, rgba(0,0,0,.2) 3px, transparent 3px, transparent 5px, rgba(0,0,0,.2) 5px);
 }
 
 #brand {
@@ -71,6 +77,14 @@ body {
   display: inline-block;
 }
 
+.new-comment-button {
+  display: inline-block;
+}
+
+.edit-button {
+  display: inline-block;
+}
+
 .login-status {
   text-align: center;
   margin-bottom: 30px;
@@ -79,36 +93,48 @@ body {
 .login-area {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-color: red;
+  border-top: firebrick 10px solid;
+  border-left: firebrick 1px solid;
+  border-right: firebrick 1px solid;
+  border-bottom: firebrick 1px solid;
+  /*border-color: firebrick;
   border-width: 1px;
-  border-style: solid;
+  border-style: solid;*/
   /*border-radius: 15px;*/
   width: 80%;
   margin: 0px auto;
-  background-color: palegreen;
+  background-color: lightgreen;
 }
 
 .new-content-area {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-color: red;
+  /*border-color: firebrick;
   border-width: 1px;
-  border-style: solid;
+  border-style: solid;*/
+  border-top: firebrick 10px solid;
+  border-left: firebrick 1px solid;
+  border-right: firebrick 1px solid;
+  border-bottom: firebrick 1px solid;
   /*border-radius: 15px;*/
-  width: 100%;
+  width: 90%;
   margin: 0px auto;
 }
 
 .topic-top-area {
   padding-top: 10px;
   padding-bottom: 10px;
-  border-color: red;
+  border-top: royalblue 10px solid;
+  border-left: royalblue 1px solid;
+  border-right: royalblue 1px solid;
+  border-bottom: royalblue 1px solid;
+  /*border-color: firebrick;
   border-width: 1px;
-  border-style: solid;
+  border-style: solid;*/
   /*border-radius: 15px;*/
   width: 100%;
   margin: 0px auto;
-  background-color: palegreen;
+  background-color: lightgreen;
   font-size: 1.3em;
 }
 
@@ -148,15 +174,52 @@ input[type='number'] {
 
 .topic-title-description {
   font-weight: bolder;
-  font-size: 1.5em;
+  font-size: 1.2em;
   background-color: #FFFFF3;
+  border-top: coral 10px solid;
+  border-left: coral 1px solid;
+  border-right: coral 1px solid;
+  width: 90%;
+  margin: auto;
+  padding-top: 5px;
 }
 
 .topic-misc {
   background-color: #FFFFF3;
+  border-left: coral 1px solid;
+  border-right: coral 1px solid;
+  border-bottom: coral 1px solid;
+  width: 90%;
+  margin: auto;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .comment-top {
   font-weight: bolder;
-  font-size: 1.5em;
+  font-size: 1.1em;
+  font-weight: bolder;
+  /*background: lightgray;
+  width: 80%;*/
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.comment-area {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: gray 10px solid;
+  border-left: gray 1px solid;
+  border-right: gray 1px solid;
+  border-bottom: gray 1px solid;
+  /*border-color: firebrick;
+  border-width: 1px;
+  border-style: solid;*/
+  /*border-radius: 15px;*/
+  width: 80%;
+  margin: auto;
+  margin-bottom: 5px;
+  font-size: 1em;
 }
