@@ -1,15 +1,50 @@
-<a href="/topics">Back to all topics</a>
 
-<h1>Topics by: <%= userid %></h1>
+<div class="container">
+  <div class="row">
 
-<% topics.forEach(function (topic) { %>
-  <div class="topic">
-    <p><%= topic.title %> : <%= topic.description %> by <%= topic.userid %>
-    <a href="/topics/<%= topic._id %>/edit" >[ Edit ]</a>
-    <form class="delete-button"
-          action="/topics/<%= topic._id %>?_method=DELETE"
-           method="post">
-      <input type="submit" value="Delete Topic">
-    </form></p>
+    <div class="col-md-12 topic-top-area">
+      <a href="/topics">Back to all topics</a>
+      <hr>
+    </div>
+
+    <div class="col-md-12 topic-top-area">
+      You are now viewing all topics by <%= userid %>. (Would you like to create a new topic? <a href="topics/new">Create a new topic.</a>)
+    </div>
+
+    <div class="col-md-12 sort-choices-area">
+      <hr>
+      Sorting options go here
+      <hr>
+    </div>
+
+    <% topics.forEach(function (topic) { %>
+    <div class="col-md-12 topic-title-description">
+        <a href="/topics/<%= topic._id %>">
+        <u><%= topic.title %></u>: <%= topic.description %></a>
+    </div>
+
+    <div class="col-md-12 topic-misc">
+    Number of Comments: <%= topic.comments.length %> |
+    Number of Likes: <%= topic.likes %> |
+    by
+      <a href="/users/<%= topic.userid %>">
+        <%= topic.userid %>
+      </a>
+      <br>
+
+    <% if (topic.userid === currentuser) { %>
+        <a href="/topics/<%= topic._id %>/edit" >[Edit]</a> |
+      <form class="delete-button"
+            action="/topics/<%= topic._id %>?_method=DELETE"
+             method="post">
+        <input type="submit" value="Delete Topic">
+      </form>
+    <% } %>
+
+    <hr>
   </div>
-<% }); %>
+  <% }); %>
+
+  </div>
+
+</div>

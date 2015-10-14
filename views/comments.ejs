@@ -1,21 +1,13 @@
-
 <div class="container">
   <div class="row">
 
     <div class="col-md-12 topic-top-area">
-      You are now viewing all topics. (Don't see one that interests you? <a href="topics/new">Create a new topic.</a>)
-    </div>
-
-    <div class="col-md-12 sort-choices-area">
-      <hr>
-      Sorting options go here
+      <a href="/topics">Back to all topics</a>
       <hr>
     </div>
 
-    <% topics.forEach(function (topic) { %>
     <div class="col-md-12 topic-title-description">
-        <a href="/topics/<%= topic._id %>">
-        <u><%= topic.title %></u>: <%= topic.description %></a>
+        <u><%= topic.title %></u>: <%= topic.description %>
     </div>
 
     <div class="col-md-12 topic-misc">
@@ -38,8 +30,26 @@
 
     <hr>
   </div>
-  <% }); %>
 
+  <div class="col-md-12 comment-top">
+    Comments:<br>
+  </div>
+  <div class="col-md-12">
+    <form class="new-comment-button"
+          action="/topics/<%= topic._id %>/newcomment"
+           method="post">
+      <input type="submit" value="New Comment">
+    </form>
+    <hr>
   </div>
 
+  <% for (i = 0; i < topic.comments.length; i++ ) { %>
+      <div class="col-md-12 comments-each">
+        <h4><%= topic.comments[i] %></h4>
+      </div>
+      <hr>
+    <% }; %>
+
+
+  </div>
 </div>

@@ -1,25 +1,27 @@
-<h3>Edit  Topic for <%= userid  %></h3>
+<div class="container">
+  <div class="row">
 
-<form class="" action="/topics/<%= topic._id %>?_method=PATCH " method="post">
-  <!-- <input  type="text"
-          name="topic[userid]"
-          placeholder="userid of the author"
-          value="<%= topic.userid %>">
-          <br /> -->
-  <!-- <input  type="text"
-          name="topic[name]"
-          placeholder="real name of the author"
-          value="<%= topic.name %>">
-          <br /> -->
-  <input  type="text"
-          name="topic[title]"
-          placeholder="title of topic"
-          value="<%= topic.title %>">
-          <br />
-  <input  type="text"
-          name="topic[description]"
-          placeholder="description of topic, limit 500 characters"
-          value="<%= topic.description  %>">
-          <br />
-  <input type="submit" >
-</form>
+    <div class="col-md-12 topic-top-area">
+      <a href="/topics">Back to all topics</a>
+      <hr>
+    </div>
+
+    <div class="col-md-12">
+        Edit the below topic for <%= currentuser %>
+    </div>
+
+    <div class="col-md-12">
+      <form class="" action="/topics/<%= topic._id %>?_method=PATCH" method="post">
+        <input  type="text"
+                name="topic[title]"
+                placeholder="title of topic"
+                value="<%= topic.title %>">
+                <br />
+        <input  type="text"
+                name="topic[description]"
+                placeholder="description of topic, limit 500 characters"
+                value="<%= topic.description  %>">
+                <br />
+        <input type="submit">
+      </form>
+    </div>

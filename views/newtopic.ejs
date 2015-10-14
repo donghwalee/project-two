@@ -1,21 +1,33 @@
-<h3>New  Topic for <%= userid  %></h3>
+<div class="container">
+  <div class="row">
 
-<form class="" action="/topics" method="post">
-  <!-- <input  type="text"
-          name="topic[userid]"
-          placeholder="userid of the author">
-          <br /> -->
-  <!-- <input  type="text"
-          name="topic[name]"
-          placeholder="real name of the author">
-          <br /> -->
-  <input  type="text"
-          name="topic[title]"
-          placeholder="title of topic">
-          <br />
-  <input  type="text"
-          name="topic[description]"
-          placeholder="description of topic, limit 500 characters">
-          <br />
-  <input type="submit" >
-</form>
+    <div class="col-md-12 topic-top-area">
+      <a href="/topics">Back to all topics</a>
+      <hr>
+    </div>
+
+    <div class="col-md-12">
+        New  Topic for <%= currentuser %>
+    </div>
+
+    <div class="col-md-12">
+      <form class="" action="/topics" method="post">
+        <input  type="text"
+                name="topic[title]"
+                placeholder="title of topic">
+                <br />
+        <input  type="text"
+                name="topic[description]"
+                placeholder="description of topic, limit 500 characters">
+                <br />
+        <input  type="text"
+                name="topic[comments]"
+                placeholder="comments, comma separated">
+                <br />
+        <input  type="Number"
+                name="topic[likes]"
+                placeholder="number of likes">
+                <br />
+        <input type="submit">
+      </form>
+    </div>

@@ -3,15 +3,38 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="/app.css" media="screen" title="no title" charset="utf-8">
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   </head>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" id="brand" href="/topics">LOGO</a>
+      <ul>
+        <li role="presentation">Menu Here</li>
+      </ul>
+    </div>
+  </nav>
   <body>
-    <h1>Currently you are: <%= userid ? userid : "you are not logged in yet" %></h1>
-    <form class="logout-button"
-          action="/logout"
-           method="post">
-      <input type="submit" value="Logout">
-    </form>
+
+    <div class="container">
+      <% if (currentuser) { %>
+        <div class="row">
+          <div class="col-md-12 login-status">You are currently logged in as: <%= currentuser %>
+            <form class="logout-button"
+                  action="/logout"
+                   method="post">
+              <input type="submit" value="Logout">
+            </form>
+          </div>
+        <% } else { %>
+          <div class="login-status">You are not logged in, please <a href="/login">log in</a> or <a href="/register">register</a></div>
+        <% }; %>
+      </div>
+    </div>
+
     <%- body %>
   </body>
 </html>
