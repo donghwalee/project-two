@@ -1,17 +1,17 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-12 link-area">
-      <a href="/topics">Back to all topics</a>
+    <div class="link-area">
+      <a href="/topics">&#9664; Back to all topics</a>
     </div>
 
-    <div class="col-md-12 topic-top-area">
+    <div class="topic-top-area">
         Edit the below topic for: <strong><%= currentuser %></strong>
     </div>
 
     <hr>
 
-    <div class="col-md-12 new-content-area">
+    <div class="new-content-area">
       <form class="" action="/topics/<%= topic._id %>?_method=PATCH" method="post">
         <input  type="text"
                 name="topic[title]"

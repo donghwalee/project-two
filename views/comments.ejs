@@ -1,29 +1,33 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-12 link-area">
-      <a href="/topics">Back to all topics</a>
+    <div class="link-area">
+      <a href="/topics">&#9664; Back to all topics</a>
     </div>
 
-    <div class="col-md-12 topic-title-description">
+    <div class="topic-title-description">
         <span class="bolder"><%= topic.title %></span>: <%= topic.description %>
     </div>
 
-    <div class="col-md-12 topic-misc">
+    <div class="topic-misc">
       Created by:
         <a href="/users/<%= topic.userid %>">
           <%= topic.userid %>
-        </a> | 
-        Number of Comments: <%= topic.comments.length %> |
-        Number of Likes: <%= topic.likes %>
+        </a> |
+        <span>Number of Comments: <%= topic.comments.length %> |</span>
+        <span>Number of Likes: <%= topic.likes %>
         <form class="like-button"
               action="/topics/<%= topic._id %>/like/<%= topic.likes %>/?_method=PATCH"
                method="post">
            <button type="submit" class="btn-xs btn-success" id="submit-button">
              &#128077; Like!
            </button>
-        </form>
+        </form></span>
 
+      <br>
+      <small>Created on: <%= topic.created %> |
+      <span>Last commented: <%= topic.updated %></span>
+      </small>
       <br>
 
     <% if (topic.userid === currentuser) { %>
@@ -45,7 +49,7 @@
 
   </div>
 
-  <div class="col-md-12 comment-top">
+  <div class="comment-top">
     Comments for this topic (newest on top) |
     <!-- <form class="new-comment-button"
           action="/topics/<%= topic._id %>/newcomment"
@@ -56,7 +60,7 @@
     <!-- </form> -->
   </div>
 
-  <div class="col-md-12 new-content-area hide-at-start">
+  <div class="new-content-area hide-at-start">
   Please enter new comment below:
   <form class="" action="/topics/<%= topic._id %>/newcomment/<%= topic.comments.length %>/?_method=PATCH" method="post">
     <input  type="comment"
@@ -70,7 +74,7 @@
 </div>
 
   <% for (i = topic.comments.length; i > 0 ; i-- ) { %>
-      <div class="col-md-12 comment-area">
+      <div class="comment-area">
         <%= topic.comments[i - 1] %>
       </div>
 

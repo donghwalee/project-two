@@ -2,19 +2,20 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-12 topic-top-area">
-      Currently viewing ALL topics. Click on the title for comments.
+    <div class="topic-top-area">
+      Currently viewing ALL topics.
+      <span>Click on the title for comments.</span>
       <br>
       <!-- <small>(Don't see one that's interesting? <a href="/topics/new">Create a new topic.</a>)</small> -->
       <small>(Don't see one that's interesting?
-      <button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
+      <span><button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
         Create a New Topic
       </button>
-      )</small>
+      )</span></small>
       <!-- </button><u><span class="expand">Create a new topic.</span></u>)</small> -->
     </div>
 
-    <div class="col-md-12 new-content-area hide-at-start">
+    <div class="new-content-area hide-at-start">
       <form class="" action="/topics" method="post">
         <input  type="text"
                 name="topic[title]"
@@ -38,24 +39,27 @@
       </form>
     </div>
 
-    <div class="col-md-12 sort-choices-area">
-      Sort Options: <a href="/topics">Date (newest on top)</a> | <a href="/topics/bycomments">Comments (most on top)</a> | <a href="/topics/bylikes">Likes (most on top)</a>
+    <div class="sort-choices-area">
+      Sort by: <a href="/topics">Newest</a> | <a href="/topics/byupdated">Recently Commented</a> | <a href="/topics/bycomments"><span>Most Comments</span></a> | <a href="/topics/bylikes">Most Likes</a>
     </div>
 
     <% topics.forEach(function (topic) { %>
-    <div class="col-md-12 topic-title-description">
+    <div class="topic-title-description">
         <a href="/topics/<%= topic._id %>">
         <span class="bolder"><%= topic.title %></span>: <%= topic.description %></a>
     </div>
 
-    <div class="col-md-12 topic-misc">
+    <div class="topic-misc">
       Created by:
         <a href="/users/<%= topic.userid %>">
           <%= topic.userid %>
-        </a> | 
-      Number of Comments: <%= topic.comments.length %> |
-      Number of Likes: <%= topic.likes %>
-
+        </a> |
+      <span>Number of Comments: <%= topic.comments.length %> |</span>
+      <span>Number of Likes: <%= topic.likes %></span>
+      <br>
+      <small>Created on: <%= topic.created %> |
+      <span>Last commented: <%= topic.updated %></span>
+      </small>
       <br>
 
     <% if (topic.userid === currentuser) { %>

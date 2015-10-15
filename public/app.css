@@ -13,6 +13,10 @@ a {
   text-decoration: none;
 }
 
+span {
+  white-space: nowrap;
+}
+
 .navbar {
   text-align: right;
   height: 80px;
@@ -68,7 +72,10 @@ body {
   padding-bottom: 50px;
 }
 
-
+div {
+  max-width: 800px;
+  margin: auto;
+}
 
 .logout-button {
   display: inline-block;
@@ -102,8 +109,7 @@ body {
 }
 
 .login-area {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   border-top: firebrick 10px solid;
   border-left: firebrick 1px solid;
   border-right: firebrick 1px solid;
@@ -126,13 +132,11 @@ body {
 }
 .sort-choices-area {
   text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 30px;
 }
 
 .new-content-area {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   /*border-color: firebrick;
   border-width: 1px;
   border-style: solid;*/
@@ -148,8 +152,7 @@ body {
 }
 
 .topic-top-area {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
   border-top: royalblue 10px solid;
   border-left: royalblue 1px solid;
   border-right: royalblue 1px solid;
@@ -161,7 +164,8 @@ body {
   width: 90%;
   margin: 0px auto;
   background-color: lightgreen;
-  font-size: 1.3em;
+  font-size: 1.4em;
+  text-align: center;
 }
 
 input[type='text'] {
@@ -212,14 +216,14 @@ input[type='number'] {
 }
 
 .topic-title-description {
-  font-size: 1.2em;
+  font-size: 1.4em;
   background-color: #FFFFF3;
   border-top: coral 10px solid;
   border-left: coral 1px solid;
   border-right: coral 1px solid;
   width: 90%;
   margin: auto;
-  padding-top: 5px;
+  padding: 5px 10px 0px 10px;
 }
 
 .bolder {
@@ -233,7 +237,7 @@ input[type='number'] {
   border-bottom: coral 1px solid;
   width: 90%;
   margin: auto;
-  padding-bottom: 5px;
+  padding: 0px 10px 5px 10px;
   margin-bottom: 5px;
 }
 
@@ -250,8 +254,7 @@ input[type='number'] {
 }
 
 .comment-area {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
   border-top: gray 10px solid;
   border-left: gray 1px solid;
   border-right: gray 1px solid;

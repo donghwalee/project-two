@@ -37,6 +37,21 @@ var userSchema = Schema({
 var User = mongoose.model("User", userSchema);
 
 
+
+// var Topic = mongoose.model("topic", {
+//   userid: String,
+//   // name: String,
+//   title: { type: String, maxlength: 150 },
+//   description: { type: String, maxlength: 300 },
+//   comments: [ String ],
+//   numComments: Number,
+//   likes: Number
+//   // date created
+//   // date last updated?
+// });
+
+// topic schema version 3
+
 var Topic = mongoose.model("topic", {
   userid: String,
   // name: String,
@@ -44,10 +59,11 @@ var Topic = mongoose.model("topic", {
   description: { type: String, maxlength: 300 },
   comments: [ String ],
   numComments: Number,
-  likes: Number
-  // date created
-  // date last updated?
+  likes: Number,
+  created: Date,
+  updated: Date
 });
+
 
 // var newTopic = new Topic({
 //   name: "Topic 1",
@@ -255,7 +271,19 @@ server.use(function (req, res, next) {
 });
 
 server.get('/topics', function (req, res) {
-  Topic.find({}, null, {sort: '-date'}, function (err, allTopics) {
+  Topic.find({}, null, {sort: '-created'}, function (err, allTopics) {
+    if (err) {
+      res.redirect('/login');
+    } else {
+      res.render('topics', {
+        topics: allTopics
+      });
+    }
+  });
+});
+
+server.get('/topics/byupdated', function (req, res) {
+  Topic.find({}, null, {sort: '-updated'}, function (err, allTopics) {
     if (err) {
       res.redirect('/login');
     } else {
@@ -291,13 +319,16 @@ server.get('/topics/bycomments', function (req, res) {
 });
 
 server.post('/topics', function (req, res) {
+  var today = new Date();
   var topic = new Topic({
     userid: req.session.currentUser,
     title: req.body.topic.title,
     description: req.body.topic.description,
     comments: [],
     numComments: 0,
-    likes: 0
+    likes: 0,
+    created: today,
+    updated: today
   });
   topic.save(function (err, newTopic) {
     if (err) {
@@ -350,9 +381,10 @@ server.patch('/topics/:id/', function (req, res) {
 });
 
 server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
+  var today = new Date();
   var topicID = req.params.id;
   var currentComments = eval(req.params.commentlength) + 1;
-  var newComment = '(Comment by: ' + res.locals.currentuser + ') "' + req.body.topic.newcomment + '"';
+  var newComment = '(Comment by: ' + res.locals.currentuser + ' | on: ' + today + ') "' + req.body.topic.newcomment + '"';
   console.log("TEST", newComment);
 
   Topic.findOneAndUpdate({
@@ -378,7 +410,22 @@ server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
           if (err) {
             console.log("This thing?", err);
         } else {
-          res.redirect(302, '/topics/' + topicID);
+          Topic.findOneAndUpdate({
+            _id: topicID
+          },
+          {updated: today}
+          , {
+            safe: true,
+            upsert: true
+          },
+           function (err, model) {
+              if (err) {
+                console.log("This thing?", err);
+            } else {
+              res.redirect(302, '/topics/' + topicID);
+            }
+          }
+          );
         }
       }
       );// res.redirect(302, '/topics/' + topicID);
@@ -438,7 +485,25 @@ server.get('/users/:id', function (req, res) {
   var particularUser = req.params.id;
   Topic.find({
     userid: particularUser
-  }, null, {sort: '-date'}, function (err, userTopics) {
+  }, null, {sort: '-created'}, function (err, userTopics) {
+    if (err) {
+
+    } else {
+      res.render('usertopics', {
+        userid: particularUser,
+        topics: userTopics
+      });
+    }
+  });
+});
+
+server.get('/users/:id/byupdated', function (req, res) {
+  console.log("can you see me?");
+  console.log(req.params.id);
+  var particularUser = req.params.id;
+  Topic.find({
+    userid: particularUser
+  }, null, {sort: '-updated'}, function (err, userTopics) {
     if (err) {
 
     } else {

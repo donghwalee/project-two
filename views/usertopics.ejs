@@ -2,25 +2,25 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-12 link-area">
-      <a href="/topics">Back to all topics</a>
+    <div class="link-area">
+      <a href="/topics">&#9664; Back to all topics</a>
     </div>
 
-    <div class="col-md-12 topic-top-area">
-      Currently viewing all topics by:<strong> <%= userid %></strong>. Click on the title for comments.
+    <div class="topic-top-area">
+      Currently viewing all topics by:<strong> <%= userid %></strong>. <span>Click on the title for comments.</span>
       <br>
       <!-- <small>(Want to create a new topic? <a href="/topics/new">Click here.</a>)</small>
     </div> -->
 
     <small>(Don't see one that's interesting?
-    <button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
+    <span><button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
       Create a New Topic
     </button>
-    )</small>
+    )</span></small>
     <!-- </button><u><span class="expand">Create a new topic.</span></u>)</small> -->
   </div>
 
-  <div class="col-md-12 new-content-area hide-at-start">
+  <div class="new-content-area hide-at-start">
     <form class="" action="/topics" method="post">
       <input  type="text"
               name="topic[title]"
@@ -44,24 +44,28 @@
     </form>
   </div>
 
-    <div class="col-md-12 sort-choices-area">
-      Sort Options: <a href="/users/<%= userid %>">Date (newest on top)</a> | <a href="/users/<%= userid %>/bycomments">Comments (most on top)</a> | <a href="/users/<%= userid %>/bylikes">Likes (most on top)</a>
+    <div class="sort-choices-area">
+      Sort by: <a href="/users/<%= userid %>">Newest</a> | <span><a href="/users/<%= userid %>/byupdated">Recently Commented</a> |</span> <span><a href="/users/<%= userid %>/bycomments">Most Comments</a> |</span> <span><a href="/users/<%= userid %>/bylikes">Most Likes</a></span>
     </div>
 
     <% topics.forEach(function (topic) { %>
-    <div class="col-md-12 topic-title-description">
+    <div class="topic-title-description">
         <a href="/topics/<%= topic._id %>">
         <span class="bolder"><%= topic.title %></span>: <%= topic.description %></a>
     </div>
 
-    <div class="col-md-12 topic-misc">
+    <div class="topic-misc">
       Created by:
         <a href="/users/<%= topic.userid %>">
           <%= topic.userid %>
         </a> |
       Number of Comments: <%= topic.comments.length %> |
-      Number of Likes: <%= topic.likes %>
+      <span>Number of Likes: <%= topic.likes %></span>
 
+      <br>
+      <small>Created on: <%= topic.created %> |
+      <span>Last commented: <%= topic.updated %></span>
+      </small>
       <br>
 
     <% if (topic.userid === currentuser) { %>
