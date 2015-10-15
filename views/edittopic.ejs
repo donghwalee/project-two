@@ -15,12 +15,12 @@
       <form class="" action="/topics/<%= topic._id %>?_method=PATCH" method="post">
         <input  type="text"
                 name="topic[title]"
-                placeholder="Title of the new topic"
+                placeholder="Title of the new topic, limit 150 characters"
                 value="<%= topic.title %>">
                 <br />
         <input  type="text"
                 name="topic[description]"
-                placeholder="Short description of the new topic, limit 500 characters"
+                placeholder="Short description of the new topic, limit 300 characters"
                 value="<%= topic.description  %>">
                 <br />
         <button type="submit" class="btn-sm btn-primary" id="submit-button">

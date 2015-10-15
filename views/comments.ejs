@@ -10,19 +10,20 @@
     </div>
 
     <div class="col-md-12 topic-misc">
-    Number of Comments: <%= topic.comments.length %> |
-    Number of Likes: <%= topic.likes %>
-    <form class="like-button"
-          action="/topics/<%= topic._id %>/like/<%= topic.likes %>/?_method=PATCH"
-           method="post">
-       <button type="submit" class="btn-xs btn-success" id="submit-button">
-         &#128077; Like!
-       </button>
-    </form> |
-    Created by:
-      <a href="/users/<%= topic.userid %>">
-        <%= topic.userid %>
-      </a>
+      Created by:
+        <a href="/users/<%= topic.userid %>">
+          <%= topic.userid %>
+        </a> | 
+        Number of Comments: <%= topic.comments.length %> |
+        Number of Likes: <%= topic.likes %>
+        <form class="like-button"
+              action="/topics/<%= topic._id %>/like/<%= topic.likes %>/?_method=PATCH"
+               method="post">
+           <button type="submit" class="btn-xs btn-success" id="submit-button">
+             &#128077; Like!
+           </button>
+        </form>
+
       <br>
 
     <% if (topic.userid === currentuser) { %>

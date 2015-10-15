@@ -24,11 +24,11 @@
     <form class="" action="/topics" method="post">
       <input  type="text"
               name="topic[title]"
-              placeholder="Title of the new topic">
+              placeholder="Title of the new topic, limit 150 characters">
               <br />
       <input  type="text"
               name="topic[description]"
-              placeholder="Short description of the new topic, limit 500 characters">
+              placeholder="Short description of the new topic, limit 300 characters">
               <br />
       <!-- <input  type="text"
               name="topic[comments]"
@@ -55,12 +55,13 @@
     </div>
 
     <div class="col-md-12 topic-misc">
-    Number of Comments: <%= topic.comments.length %> |
-    Number of Likes: <%= topic.likes %> |
-    Created by:
-      <a href="/users/<%= topic.userid %>">
-        <%= topic.userid %>
-      </a>
+      Created by:
+        <a href="/users/<%= topic.userid %>">
+          <%= topic.userid %>
+        </a> |
+      Number of Comments: <%= topic.comments.length %> |
+      Number of Likes: <%= topic.likes %>
+
       <br>
 
     <% if (topic.userid === currentuser) { %>
