@@ -15,7 +15,8 @@ var express           = require('express'),
     methodOverride    = require('method-override'),
     bodyParser        = require('body-parser'),
     expressEjsLayouts = require('express-ejs-layouts'),
-    session           = require('express-session');
+    session           = require('express-session'),
+    bcrypt            = require('bcrypt');
 
 // schema version 1
 
@@ -30,7 +31,7 @@ var express           = require('express'),
 
 var userSchema = Schema({
   username: { type: String, required: true },
-  password: { type: String, required: true }
+  passwordDigest: { type: String, required: true }
 });
 
 var User = mongoose.model("User", userSchema);
@@ -124,12 +125,53 @@ server.get('/register', function (req, res) {
   res.render('register');
 });
 
-server.post('/register', function (req, res) {
-  var newUser = User(req.body.user);
+// old post to register
 
-  newUser.save(function (err, user) {
-    res.redirect(301, 'login');
+// server.post('/register', function (req, res) {
+//   var newUser = User(req.body.user);
+//
+//   newUser.save(function (err, user) {
+//     res.redirect(301, 'login');
+//   });
+// });
+
+// new post to register w/ bcrypt
+
+server.post('/register', function (req, res) {
+  /*
+    1. Look up the email address, to make sure it's not in use
+    2. In the callback, if it's not, then encrypt the password
+  */
+
+  User.findOne({ username: req.params.user.username }, function (err, user) {
+    if (err) {
+
+    } else if (user) {
+      // use flash to send "userid in use" message
+      res.redirect(302, '/register/success');
+    } else {
+      bcrypt.genSalt(10, function (saltErr, salt) {
+        bcrypt.hash(req.params.user.password, salt, function (hashErr, hash) {
+          var newUser = new User({
+            username: req.params.user.username,
+            passwordDigest: hash // note, replace password w/ passwordDigest in schema
+          });
+
+          newUser.save(function (saveErr, savedUser) {
+            if (saveErr) {
+
+            } else {
+              res.redirect(302, '/register/success');
+            }
+          });
+        });
+      });
+    }
   });
+});
+
+server.get('/register/sucess', function (req, res) {
+  res.render('login');
 });
 
 // server.get('/users/:id', function (req, res) {
@@ -138,16 +180,41 @@ server.post('/register', function (req, res) {
 //   });
 // });
 
+// old post to login before bcrypt
+
+// server.post('/login', function (req, res) {
+//   // req.session.currentUser = req.body.currentUser;
+//   // res.redirect(302, '/topics');
+//   var attempt = req.body.user;
+//   User.findOne({ username: attempt.username }, function (err, user) {
+//     if (user && user.password === attempt.password) {
+//       req.session.currentUser = user.username;
+//       res.redirect(301, '/topics');
+//     } else {
+//       res.redirect(301, 'login');
+//     }
+//   });
+// });
+
+// new post to login w/ bcrypt
+
 server.post('/login', function (req, res) {
-  // req.session.currentUser = req.body.currentUser;
-  // res.redirect(302, '/topics');
-  var attempt = req.body.user;
-  User.findOne({ username: attempt.username }, function (err, user) {
-    if (user && user.password === attempt.password) {
-      req.session.currentUser = user.username;
-      res.redirect(301, '/topics');
+  User.findOne({ username: req.params.user.username }, function (err, user) {
+    if (err) {
+      // err stuff
+    } else if (user) {
+      bcrypt.compare(req.params.user.password, user.passwordDigest, function (compareErr, match) {
+        if (match) {
+          req.session.currentUser = user._id;
+          res.redirect(302, '/topics');
+        } else {
+          // maybe send a message about "Username and password combo don't match"
+          res.redirect(302, '/login');
+        }
+      });
     } else {
-      res.redirect(301, 'login');
+      // maybe send a message of some sort
+      res.redirect(302, '/login');
     }
   });
 });
