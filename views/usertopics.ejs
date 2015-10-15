@@ -9,8 +9,40 @@
     <div class="col-md-12 topic-top-area">
       Currently viewing all topics by:<strong> <%= userid %></strong>. Click on the title for comments.
       <br>
-      <small>(Want to create a new topic? <a href="/topics/new">Click here.</a>)</small>
-    </div>
+      <!-- <small>(Want to create a new topic? <a href="/topics/new">Click here.</a>)</small>
+    </div> -->
+
+    <small>(Don't see one that's interesting?
+    <button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
+      Create a New Topic
+    </button>
+    )</small>
+    <!-- </button><u><span class="expand">Create a new topic.</span></u>)</small> -->
+  </div>
+
+  <div class="col-md-12 new-content-area hide-at-start">
+    <form class="" action="/topics" method="post">
+      <input  type="text"
+              name="topic[title]"
+              placeholder="Title of the new topic">
+              <br />
+      <input  type="text"
+              name="topic[description]"
+              placeholder="Short description of the new topic, limit 500 characters">
+              <br />
+      <!-- <input  type="text"
+              name="topic[comments]"
+              placeholder="comments, comma separated">
+              <br />
+      <input  type="Number"
+              name="topic[likes]"
+              placeholder="number of likes">
+              <br /> -->
+        <button type="submit" class="btn-sm btn-primary" id="submit-button">
+          Create New Topic
+        </button>
+    </form>
+  </div>
 
     <div class="col-md-12 sort-choices-area">
       Sort Options: <a href="/users/<%= userid %>">Date (newest on top)</a> | <a href="/users/<%= userid %>/bycomments">Comments (most on top)</a> | <a href="/users/<%= userid %>/bylikes">Likes (most on top)</a>

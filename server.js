@@ -40,8 +40,8 @@ var User = mongoose.model("User", userSchema);
 var Topic = mongoose.model("topic", {
   userid: String,
   // name: String,
-  title: String,
-  description: { type: String, maxlength: 500 },
+  title: { type: String, maxlength: 150 },
+  description: { type: String, maxlength: 300 },
   comments: [ String ],
   numComments: Number,
   likes: Number
@@ -149,7 +149,9 @@ server.post('/register', function (req, res) {
     } else if (user) {
       // use flash to send "userid in use" message
       console.log("33333");
-      res.redirect(302, '/register/success');
+      res.redirect(302, '/register/uidinuse');
+    } else if (req.body.user.password !== req.body.user.passwordTwo) {
+      res.redirect(302, '/register/pwdmismatch');
     } else {
       console.log("44444");
       bcrypt.genSalt(10, function (saltErr, salt) {
@@ -173,8 +175,19 @@ server.post('/register', function (req, res) {
   });
 });
 
-server.get('/register/sucess', function (req, res) {
+server.get('/register/success', function (req, res) {
+  res.locals.currentuser = undefined;
   res.render('registersuccess');
+});
+
+server.get('/register/uidinuse', function (req, res) {
+  res.locals.currentuser = undefined;
+  res.render('registeruidinuse');
+});
+
+server.get('/register/pwdmismatch', function (req, res) {
+  res.locals.currentuser = undefined;
+  res.render('registerpwdmismatch');
 });
 
 // server.get('/users/:id', function (req, res) {
@@ -205,6 +218,7 @@ server.post('/login', function (req, res) {
   User.findOne({ username: req.body.user.username }, function (err, user) {
     if (err) {
       // err stuff
+      res.redirect(302, '/login/error');
       console.log("77777");
     } else if (user) {
       bcrypt.compare(req.body.user.password, user.passwordDigest, function (compareErr, match) {
@@ -215,15 +229,20 @@ server.post('/login', function (req, res) {
         } else {
           // maybe send a message about "Username and password combo don't match"
           console.log("99999");
-          res.redirect(302, '/login');
+          res.redirect(302, '/login/error');
         }
       });
     } else {
       // maybe send a message of some sort
       console.log("00000");
-      res.redirect(302, '/login');
+      res.redirect(302, '/login/error');
     }
   });
+});
+
+server.get('/login/error', function (req, res) {
+  res.locals.currentuser = undefined;
+  res.render('loginagain');
 });
 
 server.use(function (req, res, next) {
