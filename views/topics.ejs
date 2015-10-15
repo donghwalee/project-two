@@ -5,7 +5,40 @@
     <div class="col-md-12 topic-top-area">
       Currently viewing ALL topics. Click on the title for comments.
       <br>
-      <small>(Don't see one that's interesting? <a href="/topics/new">Create a new topic.</a>)</small>
+      <!-- <small>(Don't see one that's interesting? <a href="/topics/new">Create a new topic.</a>)</small> -->
+      <small>(Don't see one that's interesting?
+      <button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
+        Create a New Topic
+      </button>
+      )
+      <!-- </button><u><span class="expand">Create a new topic.</span></u>)</small> -->
+    </div>
+
+    <div class="col-md-12 new-content-area hide-at-start">
+      <form class="" action="/topics" method="post">
+        <input  type="text"
+                name="topic[title]"
+                placeholder="Title of the new topic">
+                <br />
+        <input  type="text"
+                name="topic[description]"
+                placeholder="Short description of the new topic, limit 500 characters">
+                <br />
+        <!-- <input  type="text"
+                name="topic[comments]"
+                placeholder="comments, comma separated">
+                <br />
+        <input  type="Number"
+                name="topic[likes]"
+                placeholder="number of likes">
+                <br /> -->
+          <button type="submit" class="btn-sm btn-primary" id="submit-button">
+            Create New Topic
+          </button>
+          <button class="btn-sm btn-warning collpase" id="submit-button">
+            Cancel
+          </button>
+      </form>
     </div>
 
     <div class="col-md-12 sort-choices-area">
@@ -15,7 +48,7 @@
     <% topics.forEach(function (topic) { %>
     <div class="col-md-12 topic-title-description">
         <a href="/topics/<%= topic._id %>">
-        <u><%= topic.title %></u>: <%= topic.description %></a>
+        <span class="bolder"><%= topic.title %></span>: <%= topic.description %></a>
     </div>
 
     <div class="col-md-12 topic-misc">
@@ -50,3 +83,13 @@
   </div>
 
 </div>
+
+<script>
+  $('.hide-at-start').hide();
+  $('.expand').on("click", function (e) {
+    $('.hide-at-start').slideDown(500);
+  });
+  $('.collapse').on("click", function (e) {
+    $('.hide-at-start').slideUp(500);
+  });
+</script>

@@ -19,7 +19,7 @@
     <% topics.forEach(function (topic) { %>
     <div class="col-md-12 topic-title-description">
         <a href="/topics/<%= topic._id %>">
-        <u><%= topic.title %></u>: <%= topic.description %></a>
+        <span class="bolder"><%= topic.title %></span>: <%= topic.description %></a>
     </div>
 
     <div class="col-md-12 topic-misc">

@@ -25,7 +25,7 @@
     <div class="container">
       <% if (currentuser) { %>
         <div class="row">
-          <div class="col-md-12 login-status">You are currently logged in as: <strong><%= currentuser %></strong> | 
+          <div class="col-md-12 login-status">You are currently logged in as: <strong><%= currentuser %></strong> |
             <form class="logout-button"
                   action="/logout"
                    method="post">
@@ -42,5 +42,16 @@
     </div>
 
     <%- body %>
+
+    <script>
+      $('.hide-at-start').hide();
+      $('.expand').on("click", function (e) {
+        $('.hide-at-start').slideDown(500);
+      });
+      $('.collapse').on("click", function (e) {
+        $('.hide-at-start').slideUp(500);
+      });
+    </script>
+    
   </body>
 </html>

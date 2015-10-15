@@ -6,8 +6,8 @@
     </div>
 
     <div class="col-md-12 topic-title-description">
-        Adding your new comment to:<br>
-        <u><%= topic.title %></u>: <%= topic.description %>
+        <small>Adding your new comment to:</small><br>
+        <span class="bolder"><%= topic.title %></span>: <%= topic.description %>
     </div>
 
     <div class="col-md-12 topic-misc">
@@ -20,11 +20,19 @@
       <br>
 
     <% if (topic.userid === currentuser) { %>
-        <a href="/topics/<%= topic._id %>/edit" >[Edit]</a> |
+      <form class="edit-button"
+            action="/topics/<%= topic._id %>/edit"
+             method="get">
+         <button type="submit" class="btn-xs btn-info" id="submit-button">
+           Edit
+         </button>
+      </form> |
       <form class="delete-button"
             action="/topics/<%= topic._id %>?_method=DELETE"
              method="post">
-        <input type="submit" value="Delete Topic">
+         <button type="submit" class="btn-xs btn-danger" id="submit-button">
+           Delete Topic
+         </button>
       </form>
     <% } %>
 
@@ -33,7 +41,7 @@
   <div class="col-md-12 new-content-area">
   Please enter new comment and hit Submit when finished:
   <form class="" action="/topics/<%= topic._id %>/newcomment/<%= topic.comments.length %>/?_method=PATCH" method="post">
-    <input  type="text"
+    <input  type="comment"
             name="topic[newcomment]"
             placeholder="Enter your comment here">
             <br />

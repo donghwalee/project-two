@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-md-12 topic-title-description">
-        <u><%= topic.title %></u>: <%= topic.description %>
+        <span class="bolder"><%= topic.title %></span>: <%= topic.description %>
     </div>
 
     <div class="col-md-12 topic-misc">
@@ -46,14 +46,30 @@
 
   <div class="col-md-12 comment-top">
     Comments for this topic (newest on top) |
-    <form class="new-comment-button"
+    <!-- <form class="new-comment-button"
           action="/topics/<%= topic._id %>/newcomment"
-           method="post">
-        <button type="submit" class="btn-xs btn-success" id="new-comment-button">
-          Create New Comment
+           method="post"> -->
+        <button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
+          Add New Comment
         </button>
-    </form>
+    <!-- </form> -->
   </div>
+
+  <div class="col-md-12 new-content-area hide-at-start">
+  Please enter new comment below:
+  <form class="" action="/topics/<%= topic._id %>/newcomment/<%= topic.comments.length %>/?_method=PATCH" method="post">
+    <input  type="comment"
+            name="topic[newcomment]"
+            placeholder="Enter your comment here">
+            <br />
+     <button type="submit" class="btn-sm btn-primary" id="submit-button">
+      Post My Comment
+    </button>
+    <button class="btn-sm btn-warning collpase" id="submit-button">
+      Cancel
+    </button>
+  </form>
+</div>
 
   <% for (i = topic.comments.length; i > 0 ; i-- ) { %>
       <div class="col-md-12 comment-area">
@@ -65,3 +81,10 @@
 
   </div>
 </div>
+
+<script>
+  $('.hide-at-start').hide();
+  $('.expand').on("click", function (e) {
+    $('.hide-at-start').slideDown();
+  });
+</script>

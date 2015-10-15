@@ -142,25 +142,28 @@ server.post('/register', function (req, res) {
     1. Look up the email address, to make sure it's not in use
     2. In the callback, if it's not, then encrypt the password
   */
-
-  User.findOne({ username: req.params.user.username }, function (err, user) {
+  console.log("11111");
+  User.findOne({ username: req.body.user.username }, function (err, user) {
     if (err) {
-
+      console.log("22222");
     } else if (user) {
       // use flash to send "userid in use" message
+      console.log("33333");
       res.redirect(302, '/register/success');
     } else {
+      console.log("44444");
       bcrypt.genSalt(10, function (saltErr, salt) {
-        bcrypt.hash(req.params.user.password, salt, function (hashErr, hash) {
+        bcrypt.hash(req.body.user.password, salt, function (hashErr, hash) {
           var newUser = new User({
-            username: req.params.user.username,
+            username: req.body.user.username,
             passwordDigest: hash // note, replace password w/ passwordDigest in schema
           });
 
           newUser.save(function (saveErr, savedUser) {
             if (saveErr) {
-
+              console.log("55555");
             } else {
+              console.log("66666");
               res.redirect(302, '/register/success');
             }
           });
@@ -171,7 +174,7 @@ server.post('/register', function (req, res) {
 });
 
 server.get('/register/sucess', function (req, res) {
-  res.render('login');
+  res.render('registersuccess');
 });
 
 // server.get('/users/:id', function (req, res) {
@@ -199,21 +202,25 @@ server.get('/register/sucess', function (req, res) {
 // new post to login w/ bcrypt
 
 server.post('/login', function (req, res) {
-  User.findOne({ username: req.params.user.username }, function (err, user) {
+  User.findOne({ username: req.body.user.username }, function (err, user) {
     if (err) {
       // err stuff
+      console.log("77777");
     } else if (user) {
-      bcrypt.compare(req.params.user.password, user.passwordDigest, function (compareErr, match) {
+      bcrypt.compare(req.body.user.password, user.passwordDigest, function (compareErr, match) {
         if (match) {
-          req.session.currentUser = user._id;
+          console.log("88888");
+          req.session.currentUser = user.username;
           res.redirect(302, '/topics');
         } else {
           // maybe send a message about "Username and password combo don't match"
+          console.log("99999");
           res.redirect(302, '/login');
         }
       });
     } else {
       // maybe send a message of some sort
+      console.log("00000");
       res.redirect(302, '/login');
     }
   });
