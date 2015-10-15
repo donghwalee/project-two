@@ -110,7 +110,7 @@ div {
 
 .login-area {
   padding: 20px;
-  border-top: firebrick 10px solid;
+  border-top: firebrick 20px solid;
   border-left: firebrick 1px solid;
   border-right: firebrick 1px solid;
   border-bottom: firebrick 1px solid;
@@ -153,7 +153,7 @@ div {
 
 .topic-top-area {
   padding: 10px;
-  border-top: royalblue 10px solid;
+  border-top: royalblue 20px solid;
   border-left: royalblue 1px solid;
   border-right: royalblue 1px solid;
   border-bottom: royalblue 1px solid;
@@ -218,7 +218,7 @@ input[type='number'] {
 .topic-title-description {
   font-size: 1.4em;
   background-color: #FFFFF3;
-  border-top: coral 10px solid;
+  border-top: coral 15px solid;
   border-left: coral 1px solid;
   border-right: coral 1px solid;
   width: 90%;
