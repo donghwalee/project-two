@@ -238,8 +238,7 @@ server.post('/topics', function (req, res) {
     comments: [],
     numComments: 0,
     likes: 0,
-    created: today,
-    updated: today
+    created: today
   });
   topic.save(function (err, newTopic) {
     if (err) {
