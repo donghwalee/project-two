@@ -1,12 +1,10 @@
-// variables
+// VARIABLES
 
 var express           = require('express'),
     router            = express.Router(),
     PORT              = process.env.PORT || 3000,
-    // PORT              = 3000,
     server            = express(),
     MONGOURI          = process.env.MONGOLAB_URI || "mongodb://localhost:27017",
-    // MONGOURI          = "mongodb://localhost:27017",
     dbname            = "projecttwo",
     mongoose          = require('mongoose'),
     Schema            = mongoose.Schema,
@@ -18,16 +16,7 @@ var express           = require('express'),
     session           = require('express-session'),
     bcrypt            = require('bcrypt');
 
-// schema version 1
-
-// var Topic = mongoose.model("topic", {
-//   userid: String,
-//   // name: String,
-//   title: String,
-//   description: { type: String, maxlength: 500 }
-// });
-
-// schema version 2
+// SCHEMAS
 
 var userSchema = Schema({
   username: { type: String, required: true },
@@ -35,22 +24,6 @@ var userSchema = Schema({
 });
 
 var User = mongoose.model("User", userSchema);
-
-
-
-// var Topic = mongoose.model("topic", {
-//   userid: String,
-//   // name: String,
-//   title: { type: String, maxlength: 150 },
-//   description: { type: String, maxlength: 300 },
-//   comments: [ String ],
-//   numComments: Number,
-//   likes: Number
-//   // date created
-//   // date last updated?
-// });
-
-// topic schema version 3
 
 var Topic = mongoose.model("topic", {
   userid: String,
@@ -64,25 +37,7 @@ var Topic = mongoose.model("topic", {
   updated: Date
 });
 
-
-// var newTopic = new Topic({
-//   name: "Topic 1",
-//   description: "Let's start talking about topic 1!!"
-// });
-//
-// newTopic.save(function (err, topic) {
-//   if (err) {
-//     console.log("There was an error saving...");
-//     console.log(err);
-//   } else {
-//     console.log("Topic saved");
-//     console.log(topic);
-//   }
-// })
-
-
-
-// server set and uses
+// SETS and USES
 
 server.set('view engine', 'ejs');
 server.set('views', './views');
@@ -100,26 +55,15 @@ server.use(methodOverride('_method'));
 
 server.use(bodyParser.urlencoded({ extended: true}));
 
-//
-
-
 server.use(function (req, res, next) {
-   console.log("REQ DOT BODY", req.body);
-   console.log("REQ DOT SESSION", req.session);
+   console.log("REQ DOT BODY:   ", req.body);
+   console.log("REQ DOT SESSION:", req.session);
    next();
 });
 
+// SERVER GETS, POSTS, PATCHES AND DELETES
 
-// from the user creation:
-// var userController = require('./controllers/users.js');
-// server.use('/users', userController);
-
-
-
-// server.get('/super-secret-test', function (req, res) {
-//   res.write("Welcome to my amazing app");
-//   res.end();
-// });
+// LOGIN, LOGOUTS, AND REGISTER
 
 server.get('/', function (req, res) {
   res.locals.currentuser = undefined;
@@ -141,47 +85,30 @@ server.get('/register', function (req, res) {
   res.render('register');
 });
 
-// old post to register
-
-// server.post('/register', function (req, res) {
-//   var newUser = User(req.body.user);
-//
-//   newUser.save(function (err, user) {
-//     res.redirect(301, 'login');
-//   });
-// });
-
-// new post to register w/ bcrypt
+// REGISTER W BCRYPT - from SHORTY's EXAMPLE
 
 server.post('/register', function (req, res) {
-  /*
-    1. Look up the email address, to make sure it's not in use
-    2. In the callback, if it's not, then encrypt the password
-  */
-  console.log("11111");
   User.findOne({ username: req.body.user.username }, function (err, user) {
     if (err) {
-      console.log("22222");
+      // error
+      res.redirect(302, '/register');
     } else if (user) {
-      // use flash to send "userid in use" message
-      console.log("33333");
+      // duplicate user id in use
       res.redirect(302, '/register/uidinuse');
     } else if (req.body.user.password !== req.body.user.passwordTwo) {
       res.redirect(302, '/register/pwdmismatch');
     } else {
-      console.log("44444");
       bcrypt.genSalt(10, function (saltErr, salt) {
         bcrypt.hash(req.body.user.password, salt, function (hashErr, hash) {
           var newUser = new User({
             username: req.body.user.username,
-            passwordDigest: hash // note, replace password w/ passwordDigest in schema
+            passwordDigest: hash
           });
-
           newUser.save(function (saveErr, savedUser) {
             if (saveErr) {
-              console.log("55555");
+              // error
+              res.redirect(302, '/register');
             } else {
-              console.log("66666");
               res.redirect(302, '/register/success');
             }
           });
@@ -190,6 +117,8 @@ server.post('/register', function (req, res) {
     }
   });
 });
+
+// REGISTER RESULTS
 
 server.get('/register/success', function (req, res) {
   res.locals.currentuser = undefined;
@@ -206,60 +135,38 @@ server.get('/register/pwdmismatch', function (req, res) {
   res.render('registerpwdmismatch');
 });
 
-// server.get('/users/:id', function (req, res) {
-//   User.findById(req.params.id, function (err, user) {
-//     console.log(user);
-//   });
-// });
-
-// old post to login before bcrypt
-
-// server.post('/login', function (req, res) {
-//   // req.session.currentUser = req.body.currentUser;
-//   // res.redirect(302, '/topics');
-//   var attempt = req.body.user;
-//   User.findOne({ username: attempt.username }, function (err, user) {
-//     if (user && user.password === attempt.password) {
-//       req.session.currentUser = user.username;
-//       res.redirect(301, '/topics');
-//     } else {
-//       res.redirect(301, 'login');
-//     }
-//   });
-// });
-
-// new post to login w/ bcrypt
+// LOGIN W/ BCRYPT - from SHORTY's EXAMPLE
 
 server.post('/login', function (req, res) {
   User.findOne({ username: req.body.user.username }, function (err, user) {
     if (err) {
-      // err stuff
+      // error
       res.redirect(302, '/login/error');
-      console.log("77777");
     } else if (user) {
       bcrypt.compare(req.body.user.password, user.passwordDigest, function (compareErr, match) {
         if (match) {
-          console.log("88888");
           req.session.currentUser = user.username;
           res.redirect(302, '/topics');
         } else {
-          // maybe send a message about "Username and password combo don't match"
-          console.log("99999");
+          // error
           res.redirect(302, '/login/error');
         }
       });
     } else {
-      // maybe send a message of some sort
-      console.log("00000");
+      // error
       res.redirect(302, '/login/error');
     }
   });
 });
 
+// LOGIN RESULTS
+
 server.get('/login/error', function (req, res) {
   res.locals.currentuser = undefined;
   res.render('loginagain');
 });
+
+// IF THERE IS NOT USER, THEN LOCK OUT OF OTHER PAGES
 
 server.use(function (req, res, next) {
   if (req.session.currentUser == undefined) {
@@ -269,6 +176,8 @@ server.use(function (req, res, next) {
     next();
   }
 });
+
+// TOPICS PAGES, BY DIFFERENT SORTING METHODS - DEFAULT = BY CREATION DATE
 
 server.get('/topics', function (req, res) {
   Topic.find({}, null, {sort: '-created'}, function (err, allTopics) {
@@ -318,6 +227,8 @@ server.get('/topics/bycomments', function (req, res) {
   });
 });
 
+// TOPICS PAGES
+
 server.post('/topics', function (req, res) {
   var today = new Date();
   var topic = new Topic({
@@ -332,10 +243,9 @@ server.post('/topics', function (req, res) {
   });
   topic.save(function (err, newTopic) {
     if (err) {
-        console.log("topic rejected");
-        res.redirect(302, '/newtopic');
+        // where should they go for errors???
+        res.redirect(302, '/error');
       } else {
-        console.log("topic saved");
         res.redirect(302, '/topics');
       }
   });
@@ -347,8 +257,8 @@ server.get('/topics/:id/edit', function (req, res) {
     _id: topicID
   }, function (err, foundTopic) {
     if (err) {
-      res.write("something wrong w/ the ID...");
-      res.end();
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
        res.render('edittopic', {
           topic: foundTopic
@@ -365,8 +275,8 @@ server.patch('/topics/:id/', function (req, res) {
     _id: topicID
   }, function (err, foundTopic) {
     if (err) {
-      res.write("something wrong w/ the ID...");
-      res.end();
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
        foundTopic.update(topicParams, function (errTwo, topics) {
          if (errTwo) {
@@ -396,7 +306,8 @@ server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
       upsert: true
     }, function (err, model) {
       if (err) {
-        console.log("This thing?", err);
+        // where should they go for errors???
+        res.redirect(302, '/error');
     } else {
       Topic.findOneAndUpdate({
         _id: topicID
@@ -408,7 +319,8 @@ server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
       },
        function (err, model) {
           if (err) {
-            console.log("This thing?", err);
+            // where should they go for errors???
+            res.redirect(302, '/error');
         } else {
           Topic.findOneAndUpdate({
             _id: topicID
@@ -420,7 +332,8 @@ server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
           },
            function (err, model) {
               if (err) {
-                console.log("This thing?", err);
+                // where should they go for errors???
+                res.redirect(302, '/error');
             } else {
               res.redirect(302, '/topics/' + topicID);
             }
@@ -428,16 +341,12 @@ server.patch('/topics/:id/newcomment/:commentlength', function (req, res) {
           );
         }
       }
-      );// res.redirect(302, '/topics/' + topicID);
+      );
     }
   }
   );
 });
 
-
-
-
-// Issues...?
 
 server.patch('/topics/:id/like/:nolikes/', function (req, res) {
   console.log("I'm at least here...", req.params);
@@ -454,7 +363,8 @@ server.patch('/topics/:id/like/:nolikes/', function (req, res) {
   },
    function (err, model) {
       if (err) {
-        console.log("This thing?", err);
+        // where should they go for errors???
+        res.redirect(302, '/error');
     } else {
       res.redirect(302, '/topics/' + topicID);
     }
@@ -468,16 +378,21 @@ server.delete('/topics/:id', function (req, res) {
     _id: topicID
   }, function (err) {
     if (err) {
-
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
       res.redirect(302, '/topics');
     }
   });
 });
 
-server.get('/topics/new', function (req, res) {
-  res.render('newtopic' );
-});
+// NO LONGER NEEDED BECAUSE OF SLIDEDOWN METHOD
+
+// server.get('/topics/new', function (req, res) {
+//   res.render('newtopic' );
+// });
+
+// VIEW BY USERS
 
 server.get('/users/:id', function (req, res) {
   console.log("can you see me?");
@@ -487,7 +402,8 @@ server.get('/users/:id', function (req, res) {
     userid: particularUser
   }, null, {sort: '-created'}, function (err, userTopics) {
     if (err) {
-
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
       res.render('usertopics', {
         userid: particularUser,
@@ -505,7 +421,8 @@ server.get('/users/:id/byupdated', function (req, res) {
     userid: particularUser
   }, null, {sort: '-updated'}, function (err, userTopics) {
     if (err) {
-
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
       res.render('usertopics', {
         userid: particularUser,
@@ -523,7 +440,8 @@ server.get('/users/:id/bycomments', function (req, res) {
     userid: particularUser
   }, null, {sort: '-numComments'}, function (err, userTopics) {
     if (err) {
-
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
       res.render('usertopics', {
         userid: particularUser,
@@ -541,7 +459,8 @@ server.get('/users/:id/bylikes', function (req, res) {
     userid: particularUser
   }, null, {sort: '-likes'}, function (err, userTopics) {
     if (err) {
-
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
       res.render('usertopics', {
         userid: particularUser,
@@ -551,11 +470,14 @@ server.get('/users/:id/bylikes', function (req, res) {
   });
 });
 
+// TOPICS AGAIN?
+
 server.get('/topics/:id/', function (req, res) {
   console.log(req.params.id);
   Topic.findById(req.params.id, function (err, particularTopic) {
     if (err) {
-      console.log("darn...", err);
+      // where should they go for errors???
+      res.redirect(302, '/error');
     } else {
       res.render('comments', {
         topic: particularTopic
@@ -564,30 +486,35 @@ server.get('/topics/:id/', function (req, res) {
   });
 });
 
-server.post('/topics/:id/newcomment', function (req, res) {
-  var topicID = req.params.id;
-  console.log("here, here...");
-  Topic.findOne({
-    _id: topicID
-  }, function (err, foundTopic) {
-    if (err) {
-      res.write("something wrong w/ the ID...");
-      res.end();
-    } else {
-       res.render('newcomment', {
-          topic: foundTopic
-       });
-    }
-  });
+// NO LONGER NEEDED BECAUSE OF SLIDEDOWN FUNCTION
+
+// server.post('/topics/:id/newcomment', function (req, res) {
+//   var topicID = req.params.id;
+//   console.log("here, here...");
+//   Topic.findOne({
+//     _id: topicID
+//   }, function (err, foundTopic) {
+//     if (err) {
+//       // where should they go for errors???
+//       res.redirect(302, '/topics');
+//     } else {
+//        res.render('newcomment', {
+//           topic: foundTopic
+//        });
+//     }
+//   });
+// });
+
+// errors
+
+server.get('/error', function (req, res) {
+  res.render('errors');
 });
-
-
 
 // catchall as a last resort (needed?)
 
 server.use(function (req, res, next) {
-  res.send("You are done...");
-  res.end();
+  res.render('errors');
 });
 
 mongoose.connect(MONGOURI + "/" + dbname);
