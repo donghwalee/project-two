@@ -34,13 +34,118 @@ span {
   padding-top: 0;
 }
 
-nav li {
+/*nav li {
   display: inline;
   font-size: 1.5em;
 }
 
 nav ul {
   margin-top: 25px;
+}*/
+
+#hamburger-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 30px 0 0;
+
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+
+#hamburger-wrapper.open {
+  right: 120px;
+}
+
+#hamburger-button {
+  display: inline-block;
+  vertical-align: top;
+  height: 50px;
+  width: 43px;
+}
+
+#hamburger-button > span {
+  margin-bottom: 6px;
+  height: 4px;
+  width: 43px;
+  background-color: white;
+  display: block;
+
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+
+#hamburger-button.open span:nth-child(1) {
+  -webkit-transform: translateY(14px) rotate(45deg);
+     -moz-transform: translateY(14px) rotate(45deg);
+      -ms-transform: translateY(14px) rotate(45deg);
+       -o-transform: translateY(14px) rotate(45deg);
+          transform: translateY(14px) rotate(45deg);
+}
+
+#hamburger-button.open span:nth-child(2) {
+  -webkit-transform: rotateY(90deg);
+     -moz-transform: rotateY(90deg);
+      -ms-transform: rotateY(90deg);
+       -o-transform: rotateY(90deg);
+          transform: rotateY(90deg);
+}
+
+#hamburger-button.open span:nth-child(3) {
+  -webkit-transform: translateY(-6px) rotate(-45deg);
+     -moz-transform: translateY(-6px) rotate(-45deg);
+      -ms-transform: translateY(-6px) rotate(-45deg);
+       -o-transform: translateY(-6px) rotate(-45deg);
+          transform: translateY(-6px) rotate(-45deg);
+}
+
+#menu-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: -130px;
+  width: 130px;
+  background: darkorange;
+  z-index: 10;
+
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+
+#menu-wrapper.open {
+  right: 0px;
+}
+
+ul#menu {
+  list-style-type: none;
+  padding: 0 0 0 0;
+}
+
+ul#menu li {
+  border-bottom: 1px solid #777;
+}
+
+ul#menu > li > a {
+  display: block;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+ul#menu > li > a:hover {
+  color: white;
+  background: orange;
 }
 
 body {
@@ -62,7 +167,7 @@ body {
 }
 
 div {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
 }
 

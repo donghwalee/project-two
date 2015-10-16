@@ -11,15 +11,31 @@
   </head>
 
   <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
       <a class="navbar-brand" id="brand" href="/topics"><img src="/jake_logo_v1_small.png"></a>
-      <ul>
-        <li role="presentation">Menu Goes Here</li>
+      <div id="menu-wrapper" class="closed">
+      <ul id="menu">
+        <% if (currentuser) { %>
+        <li><a href="/logout">LOGOUT</a></li>
+        <% } else { %>
+        <li><a href="/login">LOGIN</a></li>
+        <% }; %>
+        <li><a href="/topics">TOPICS</a></li>
+        <li><a href="https://github.com/donghwalee/project-two" target="_blank">GITHUB</a></li>
       </ul>
+    </div>
+
+    <div id="hamburger-wrapper" class="closed">
+      <div id="hamburger-button">
+        <span></span>
+        <span></span>
+        <span></span>
+        MENU
+      </div>
     </div>
   </nav>
 
   <body>
+
     <div class="container">
       <% if (currentuser) { %>
         <div class="row">
