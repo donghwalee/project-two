@@ -59,7 +59,8 @@ https://github.com/donghwalee/project-two
 - Posts in markdown format
 
 **Other features that I would like to implement**
-- User preferences - various settings such as color, theme, etc. Also manage passwords (change, resets, forgotten, etc.), username, and further information such as emails, etc.
+- User preferences - various settings such as color, theme, etc. Also manage passwords (change, resets, forgotten, etc.), username, and further information such as emails, profile pictures, etc.
+- Rules for passwords, usernames, etc.
 - Varying levels of user rights
 - Send invitations
 - Notifications (when somebody posts on your topic, replies to your comments, mentions you, etc.)
