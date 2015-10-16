@@ -9,16 +9,13 @@
     <div class="topic-top-area">
       Currently viewing all topics by:<strong> <%= userid %></strong>. <span>Click on the title for comments.</span>
       <br>
-      <!-- <small>(Want to create a new topic? <a href="/topics/new">Click here.</a>)</small>
-    </div> -->
-
     <small>(Don't see one you want?
-    <span><button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
+    <span>
+      <button type="submit" class="btn-xs btn-success expand" id="new-comment-button">
       Create a New Topic
-    </button>
-    )</span></small>
-    <!-- </button><u><span class="expand">Create a new topic.</span></u>)</small> -->
-  </div>
+      </button>)
+    </span></small>
+    </div>
 
   <div class="new-content-area hide-at-start">
     <form class="" action="/topics" method="post">
@@ -30,14 +27,6 @@
               name="topic[description]"
               placeholder="Short description of the new topic, limit 300 characters">
               <br />
-      <!-- <input  type="text"
-              name="topic[comments]"
-              placeholder="comments, comma separated">
-              <br />
-      <input  type="Number"
-              name="topic[likes]"
-              placeholder="number of likes">
-              <br /> -->
         <button type="submit" class="btn-sm btn-primary" id="submit-button">
           Create New Topic
         </button>
