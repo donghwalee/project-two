@@ -39,14 +39,14 @@
     <div class="container">
       <% if (currentuser) { %>
         <div class="row">
-          <div class="login-status">You are currently logged in as: <strong><%= currentuser %></strong> |
+          <div class="login-status">You are currently logged in as: <span><strong><%= currentuser %></strong> |
             <form class="logout-button"
                   action="/logout"
                   method="post">
                <button type="submit" class="btn-xs btn-warning" id="logout-button">
                  Logout
                </button>
-            </form>
+            </form></span>
           </div>
         <% } else { %>
           <div class="login-status">You are not logged in, please <a href="/login">log in</a> or <a href="/register">register</a></div>
